@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>15_服務端響應_JSON</title>
+  <style>
+    #result {
+      width: 200px;
+      height: 100px;
+      border: 1px solid #903;
+    }
+  </style>
+</head>
+<body>
+  <div id="result"></div>
+  <script>
+    const result = document.querySelector('#result');
+    window.onkeydown = function() {
+      // console.log('test');
+      // 1. 創建對象
+      const xhr = new XMLHttpRequest();
+      // 設置響應體數據類型
+      xhr.responseType = 'json';
+      // 2. 初始化 設置請求方法和 URL
+      xhr.open('POST', 'http://localhost:8000/json-server');
+      // 3. 發送
+      xhr.send();
+      // 4. 事件綁定
+      xhr.onreadystatechange = function() {
+        // 判斷
+        if (xhr.readyState === 4) {
+          if(xhr.status >= 200 && xhr.status < 300) {
+            // console.log(xhr.response);
+            // result.innerHTML = xhr.response;
+
+            // 手動對 JSON 字符串進行解析
+            // let data = JSON.parse(xhr.response);
+            // result.innerHTML = data.name;
+
+            // 設置響應體數據類型為 JSON 就不用手動解析了
+            console.log(xhr.response);
+            result.innerHTML = xhr.response.name;
+          } else {
+            console.log('請求失敗');
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>
